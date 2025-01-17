@@ -1,0 +1,4 @@
+Used nodejs.
+
+package install: npm install 
+run command: npm run dev 
