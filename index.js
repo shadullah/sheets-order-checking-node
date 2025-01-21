@@ -1,9 +1,17 @@
 const { google } = require("googleapis");
 
-const spreadsheetId = "1y-6Vx0w6ISybC6ESoEVhzhvymILCt_E9OOcgIuLav8c";
+const extractSheetId = (url) => {
+  const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+  return match ? match[1] : null;
+};
+
+const url =
+  "https://docs.google.com/spreadsheets/d/13bFvk1TauQLYIYphr4XE8UitShbfrqLnQWtkeXw9eWs/edit?gid=1490546788#gid=1490546788";
+
+const spreadsheetId = extractSheetId(url);
 const apiKey = "AIzaSyBK5TckwP-yak1in51-EoR0GGNyZWktfvU";
-const startDate = "10-11-2024";
-const endDate = "30-11-2024";
+const startDate = "01-01-2023";
+const endDate = "06-01-2023";
 
 const initSheet = async () => {
   return google.sheets({
@@ -19,6 +27,8 @@ const fetchSheet = async () => {
     const response = await sheet.spreadsheets.get({
       spreadsheetId,
     });
+    // console.log(url);
+    console.log(response);
     console.log(
       "Available sheets: ",
       response.data.sheets.map((sheet) => sheet.properties.title)
@@ -26,7 +36,7 @@ const fetchSheet = async () => {
 
     const ordersRes = await sheet.spreadsheets.values.get({
       spreadsheetId,
-      range: "Order!A:B",
+      range: "Orders!A:B",
     });
     const lineItemRes = await sheet.spreadsheets.values.get({
       spreadsheetId,
